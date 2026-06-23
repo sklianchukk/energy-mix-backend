@@ -1,5 +1,3 @@
-// type definitions for carbon intensity and energy data
-
 export interface GenerationSource {
     fuel: string;
     perc: number;

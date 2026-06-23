@@ -1,5 +1,3 @@
-// unit tests for carbon intensity service
-
 import {
     calculateCleanEnergyPercentage,
     extractDateFromDateTime,

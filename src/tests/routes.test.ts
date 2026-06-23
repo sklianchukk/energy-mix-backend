@@ -1,5 +1,3 @@
-// http route tests for energy api endpoints
-
 import request from "supertest";
 import express from "express";
 import cors from "cors";
@@ -9,12 +7,14 @@ import * as carbonIntensityService from "../services/carbonIntensityService";
 // mock the entire service module
 jest.mock("../services/carbonIntensityService");
 
-const mockedGetEnergyMix = carbonIntensityService.getEnergyMixFor3Days as jest.MockedFunction<
-    typeof carbonIntensityService.getEnergyMixFor3Days
->;
-const mockedGetOptimalWindow = carbonIntensityService.getOptimalChargingWindow as jest.MockedFunction<
-    typeof carbonIntensityService.getOptimalChargingWindow
->;
+const mockedGetEnergyMix =
+    carbonIntensityService.getEnergyMixFor3Days as jest.MockedFunction<
+        typeof carbonIntensityService.getEnergyMixFor3Days
+    >;
+const mockedGetOptimalWindow =
+    carbonIntensityService.getOptimalChargingWindow as jest.MockedFunction<
+        typeof carbonIntensityService.getOptimalChargingWindow
+    >;
 
 // build a minimal express app for testing
 const app = express();
@@ -27,9 +27,21 @@ app.use("/api", energyRoutes);
 // ------------------------------------------------------------------
 describe("GET /api/energy-mix", () => {
     const fakeDays: import("../types/index").DailyEnergyData[] = [
-        { date: "2026-06-23", generationmix: { wind: 30, gas: 70 } as Record<string, number>, cleanEnergyPercentage: 30 },
-        { date: "2026-06-24", generationmix: { solar: 50, gas: 50 } as Record<string, number>, cleanEnergyPercentage: 50 },
-        { date: "2026-06-25", generationmix: { nuclear: 40, gas: 60 } as Record<string, number>, cleanEnergyPercentage: 40 },
+        {
+            date: "2026-06-23",
+            generationmix: { wind: 30, gas: 70 } as Record<string, number>,
+            cleanEnergyPercentage: 30,
+        },
+        {
+            date: "2026-06-24",
+            generationmix: { solar: 50, gas: 50 } as Record<string, number>,
+            cleanEnergyPercentage: 50,
+        },
+        {
+            date: "2026-06-25",
+            generationmix: { nuclear: 40, gas: 60 } as Record<string, number>,
+            cleanEnergyPercentage: 40,
+        },
     ];
 
     beforeEach(() => {
@@ -140,7 +152,9 @@ describe("GET /api/optimal-window", () => {
     });
 
     it("should return 500 when service throws an error", async () => {
-        mockedGetOptimalWindow.mockRejectedValue(new Error("no data available"));
+        mockedGetOptimalWindow.mockRejectedValue(
+            new Error("no data available")
+        );
 
         const res = await request(app).get("/api/optimal-window?hours=2");
 
@@ -152,7 +166,9 @@ describe("GET /api/optimal-window", () => {
         mockedGetOptimalWindow.mockResolvedValue(fakeWindow);
 
         for (const hours of [1, 2, 3, 4, 5, 6]) {
-            const res = await request(app).get(`/api/optimal-window?hours=${hours}`);
+            const res = await request(app).get(
+                `/api/optimal-window?hours=${hours}`
+            );
             expect(res.status).toBe(200);
         }
     });

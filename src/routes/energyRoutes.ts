@@ -1,5 +1,3 @@
-// express routes for energy mix and optimal charging endpoints
-
 import { Router, Request, Response } from "express";
 import {
     getEnergyMixFor3Days,

@@ -1,5 +1,3 @@
-// main express server entry point
-
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import energyRoutes from "./routes/energyRoutes";

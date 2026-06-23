@@ -1,5 +1,3 @@
-// unit tests for carbonIntensityService with mocked axios
-
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import {
@@ -55,17 +53,21 @@ describe("fetchGenerationData", () => {
     });
 
     it("should throw an error when api returns non-2xx status", async () => {
-        mock.onGet(/carbonintensity/).reply(503, { error: "service unavailable" });
+        mock.onGet(/carbonintensity/).reply(503, {
+            error: "service unavailable",
+        });
 
-        await expect(fetchGenerationData("2026-06-23", "2026-06-24")).rejects.toThrow(
-            "failed to fetch carbon intensity data"
-        );
+        await expect(
+            fetchGenerationData("2026-06-23", "2026-06-24")
+        ).rejects.toThrow("failed to fetch carbon intensity data");
     });
 
     it("should throw an error when network times out", async () => {
         mock.onGet(/carbonintensity/).timeout();
 
-        await expect(fetchGenerationData("2026-06-23", "2026-06-24")).rejects.toThrow();
+        await expect(
+            fetchGenerationData("2026-06-23", "2026-06-24")
+        ).rejects.toThrow();
     });
 
     it("should build the url with correct from/to datetime format", async () => {

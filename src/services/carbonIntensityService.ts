@@ -1,5 +1,3 @@
-// service for fetching and processing carbon intensity data
-
 import axios from "axios";
 import {
     CarbonIntensityApiResponse,
