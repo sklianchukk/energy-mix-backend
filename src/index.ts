@@ -1,6 +1,6 @@
 // main express server entry point
 
-import express, { Request, Response } from "express";
+import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import energyRoutes from "./routes/energyRoutes";
 
@@ -19,8 +19,8 @@ app.get("/health", (req: Request, res: Response) => {
     res.json({ status: "ok" });
 });
 
-// error handling middleware
-app.use((err: Error, req: Request, res: Response) => {
+// error handling middleware — must have 4 params for express to recognize it as error handler
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     console.error("unhandled error:", err);
     res.status(500).json({
         error: "internal server error",
